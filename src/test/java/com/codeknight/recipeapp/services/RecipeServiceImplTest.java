@@ -4,14 +4,12 @@ import com.codeknight.recipeapp.domain.Recipe;
 import com.codeknight.recipeapp.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,5 +35,14 @@ class RecipeServiceImplTest {
         Mockito.when(recipeRepository.findAll()).thenReturn(recipes);
         assertEquals(recipeSet, recipeService.getRecipes());
         Mockito.verify(recipeRepository, Mockito.times(1)).findAll();
+    }
+
+    @Test
+    void getRecipeById() {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+        Mockito.when(recipeRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(recipe));
+        assertEquals(recipe, recipeService.getRecipeById(1L));
+        Mockito.verify(recipeRepository, Mockito.times(1)).findById(ArgumentMatchers.anyLong());
     }
 }
